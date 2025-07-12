@@ -1,31 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Portal = () => {
-  const [dreamText, setDreamText] = useState('');
+  const [dreamText, setDreamText] = useState("");
   const [visualizationData, setVisualizationData] = useState(null);
+  const navigate = useNavigate();
 
-  const handleGenerateVisualization = async () => {
+  // Mock initial visualization
+  const handleInitialVisualization = async () => {
     if (!dreamText.trim()) return;
-    try {
-      const response = await fetch('/api/visualize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dreamText }),
+    // Simulate API delay
+    setTimeout(() => {
+      setVisualizationData({
+        imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+        analysis: {
+          vibrancy: "High",
+          surrealism: "Medium",
+          clarity: "Low",
+        },
       });
-      const data = await response.json();
+    }, 500);
+  };
+
+  // Mock full visualization
+  const handleGenerateVisualization = async () => {
+    if (!dreamText.trim() || !visualizationData) return;
+    setTimeout(() => {
+      const data = {
+        imageUrl: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+        analysis: {
+          vibrancy: "Very High",
+          surrealism: "Very High",
+          clarity: "Medium",
+        },
+      };
       setVisualizationData(data);
-    } catch (error) {
-      console.error('Visualization error:', error);
-    }
+      navigate("/visualization", { state: { visualization: data, dreamText } });
+    }, 500);
   };
 
   return (
     <main className="container mx-auto px-4 py-12">
       <section className="mb-16">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Record & Visualize Your Dreams</h2>
+          <h2 className="text-3xl font-bold mb-4">
+            Record & Visualize Your Dreams
+          </h2>
           <p className="text-lg text-gray-300">
-            Describe your dream and our AI will decode its emotional meaning, then transform it into a beautiful visual story.
+            Describe your dream and our AI will decode its emotional meaning,
+            then transform it into a beautiful visual story.
           </p>
         </div>
 
@@ -33,17 +56,6 @@ const Portal = () => {
           {/* Dream Input Panel */}
           <div className="bg-[#1f1b36] rounded-xl p-6 shadow-lg dream-glow">
             <h3 className="text-xl font-semibold mb-4">Describe Your Dream</h3>
-
-            <div className="mb-4">
-              <div className="flex justify-between mb-2">
-                <label className="text-sm">Dream Date</label>
-                <span className="text-xs text-gray-400">Last night</span>
-              </div>
-              <input
-                type="date"
-                className="w-full bg-[#2a2438] border-none rounded-lg p-3 mb-4"
-              />
-            </div>
 
             <div className="mb-4">
               <label className="block text-sm mb-2">Dream Title</label>
@@ -65,20 +77,33 @@ const Portal = () => {
             </div>
 
             <div className="flex items-center justify-between">
-              <button className="px-6 py-3 bg-indigo-600 rounded-full font-medium flex items-center">
+              <button
+                className="px-6 py-3 bg-indigo-600 rounded-full font-medium flex items-center"
+                onClick={handleInitialVisualization}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
-                  viewBox="0 0 20 20"
+                  viewBox="0 0 489.242 489.242"
                   fill="currentColor"
+                  className="h-5 w-5 mr-2"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Record Dream
+                  <g>
+                    <g>
+                      <path
+                        d="M416.321,171.943c0-97.8-82.2-176.9-181-171.7c-89.5,5.2-160.3,79.1-162.4,168.6c0,44.7,16.6,86.3,45.8,118.6
+          c47.7,51.1,41.6,110.3,41.6,110.3c0,11.4,9.4,20.8,20.8,20.8h126.9c11.4,0,20.8-9.4,21.8-20.8c0,0-7-57.7,40.6-109.2
+          C399.621,257.243,416.321,215.643,416.321,171.943z M288.321,377.943h-87.4c-2.1-42.7-20.8-84.3-51-116.5
+          c-22.9-25-34.3-57.2-34.3-90.5c1-68.7,54.1-124.8,122.8-129c74.9-4.2,137.3,56.2,137.3,130c0,32.3-12.5,64.5-35.4,88.4
+          C309.121,293.643,290.421,335.243,288.321,377.943z"
+                      />
+                      <path
+                        d="M281.021,447.643h-73.9c-11.4,0-20.8,9.4-20.8,20.8s9.4,20.8,20.8,20.8h73.9c11.4,0,20.8-9.4,20.8-20.8
+          C301.821,457.043,292.521,447.643,281.021,447.643z"
+                      />
+                    </g>
+                  </g>
+                </svg>{" "}
+                Visualise
               </button>
 
               <div className="flex items-center space-x-2">
@@ -153,15 +178,21 @@ const Portal = () => {
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="bg-[#2a2438] p-2 rounded flex items-center">
                   <span className="w-2 h-2 rounded-full bg-pink-500 mr-2"></span>
-                  <span>Vibrancy</span>
+                  <span>
+                    Vibrancy: {visualizationData?.analysis?.vibrancy || "—"}
+                  </span>
                 </div>
                 <div className="bg-[#2a2438] p-2 rounded flex items-center">
                   <span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
-                  <span>Surrealism</span>
+                  <span>
+                    Surrealism: {visualizationData?.analysis?.surrealism || "—"}
+                  </span>
                 </div>
                 <div className="bg-[#2a2438] p-2 rounded flex items-center">
                   <span className="w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
-                  <span>Clarity</span>
+                  <span>
+                    Clarity: {visualizationData?.analysis?.clarity || "—"}
+                  </span>
                 </div>
               </div>
             </div>

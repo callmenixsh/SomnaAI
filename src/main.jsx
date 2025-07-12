@@ -7,6 +7,11 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./Pages/home.jsx";
+import About from "./Pages/about.jsx";
+import Science from "./Pages/science.jsx";
+import Visual from "./Pages/visualization.jsx";
+import Dream from "./Pages/dream.jsx";
+import Gallery from "./Pages/dreamgallery.jsx";
 import Navbar from "./Components/navbar";
 import Footer from "./Components/footer";
 
@@ -26,6 +31,41 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <Home />
+      </Layout>
+    ),
+  },  {
+    path: "/about",
+    element: (
+      <Layout>
+        <About />
+      </Layout>
+    ),
+  },  {
+    path: "/science",
+    element: (
+      <Layout>
+        <Science />
+      </Layout>
+    ),
+  },  {
+    path: "/gallery",
+    element: (
+      <Layout>
+        <Gallery />
+      </Layout>
+    ),
+  },  {
+    path: "/visualization",
+    element: (
+      <Layout>
+        <Visual />
+      </Layout>
+    ),
+  },  {
+    path: "/dream",
+    element: (
+      <Layout>
+        <Dream />
       </Layout>
     ),
   },
