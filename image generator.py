@@ -40,6 +40,7 @@ class DirectImageGenerator:
             }
         ]
         
+        
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
             print(f"📁 Created folder: {output_folder}")
